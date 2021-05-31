@@ -32,50 +32,59 @@ func Compare(secret string, guess string) Accuracy {
 	// Testing
 	fmt.Println(s, g)
 
-	for i, v := range s {
-		// Counts exact matches
-		if g[i] == v {
-			exact++
-			// Counts the matched digits
-			m[i] = v // Keys must be unique, else they will be overwritten
-		}
-	}
 	/*
-	for _, v := range matched {
-		// Adds near matches if they have not been matched already
-		for _, digit := range g {
-			if digit == v.value {
-				duplicates = true
+		for i, sVal := range s {
+			// Counts exact matches
+			if g[i] == sVal {
+				exact++
+				// Counts the matched digits
+				m = append(m, sVal) // Keys must be unique, else they will be overwritten
 			}
 		}
-		if !duplicates {
-			near++
-		}
-	}
 	*/
 
-	// Near++ if gVal is in s AND if gVal != matched (if gVal != in m)
-	//(if g[i] != s[i] AND s[!i] has not been near matched) 
-	for gPos, gVal := range g {
-		
+	// Checks for nears
+	// Will only count digits if:
+	// 1. The digit is present in the secret
+	// 2. The digit has not been matched yet
+	// i.e. Not an exact match (guess digit != secret digit)
+	//  AND Not a previously counted near match (guess digit not in matched)
+
+	dupes := 0
+	for _, gVal := range g {
 		// Check if gVal is in s
-		for sPos, sVal := range s {
-			
-			// Check if gVal is in m AND if gVal != sVal
-			for mPos, mVal := range m {
-				if gVal == mVal {
-					if gVal != sVal {
-						near++
+		for _, sVal := range s {
+			// Check if gVal != sVal
+			if gVal != sVal {
+				// Check if gVal is not in m
+				for _, mVal := range m {
+					if gVal == mVal {
+						dupes++
 					}
 				}
+				if dupes == 0 {
+					near++
+					dupes = 0
+				}
+			}
+
+		}
+
+	}
+	// Old near matcher
+	/*
+		for _, v := range matched {
+			// Adds near matches if they have not been matched already
+			for _, digit := range g {
+				if digit == v.value {
+					duplicates = true
+				}
+			}
+			if !duplicates {
+				near++
 			}
 		}
-		
-	} 
-	// 
-
-	// Testing
-	fmt.Println(matched)
+	*/
 
 	// I need a function that takes the secret (string) and converts it
 	// to an array of integers so that I can check for cows (if a number in guess matches)
@@ -83,5 +92,5 @@ func Compare(secret string, guess string) Accuracy {
 
 	// Matched should be a bool. If false, a position can be matched. If true, it cannot be matched again.
 
-	return Accuracy{Exact: exact, Near: 0}
+	return Accuracy{Exact: exact, Near: near}
 }
