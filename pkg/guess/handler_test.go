@@ -6,37 +6,34 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// Establish rules before filling out these test cases
-
 func TestCompareReturnsAllExact(t *testing.T) {
-	// Returns bulls correctly e.g. secret=1111 guess=1111 all bulls
 	result := Compare("1111", "1111")
 
 	assert.Equal(t, Accuracy{Exact: 4}, result)
 }
 
 func TestCompareReturnsNearsCorrectly(t *testing.T) {
-	// Returns bulls correctly e.g. secret=1111 guess=1111 all bulls
 	result := Compare("1234", "4321")
+	result2 := Compare("1134", "0001")
 
 	assert.Equal(t, Accuracy{Near: 4}, result)
+	assert.Equal(t, Accuracy{Near: 1}, result2)
 }
 
 func TestCompareReturnsExpectedAccuracy(t *testing.T) {
-	// Returns bulls correctly e.g. secret=1111 guess=1111 all bulls
-	result := Compare("1234", "1823")
+	result1 := Compare("1234", "1822")
+	result2 := Compare("1224", "1812")
 
-	assert.Equal(t, Accuracy{Exact: 1, Near: 2}, result)
+	assert.Equal(t, Accuracy{Exact: 1, Near: 1}, result1)
+	assert.Equal(t, Accuracy{Exact: 1, Near: 1}, result2)
 }
 
 func TestCompareReturnsEmptyOnNoMatches(t *testing.T) {
-	// Returns bulls correctly e.g. secret=1111 guess=1111 all bulls
 	result := Compare("1111", "9999")
 
 	assert.Equal(t, Accuracy{}, result)
 }
 func TestCompareDoesNotDuplicateMatches(t *testing.T) {
-	// Returns bulls correctly e.g. secret=1111 guess=1111 all bulls
 	result1 := Compare("1134", "1011")
 	result2 := Compare("1134", "0011")
 
