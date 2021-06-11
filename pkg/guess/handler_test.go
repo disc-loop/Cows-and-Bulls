@@ -37,6 +37,12 @@ func TestCompareDoesNotDuplicateMatches(t *testing.T) {
 	result1 := Compare("1134", "1011")
 	result2 := Compare("1134", "0011")
 
-	assert.Equal(t, Accuracy{Exact: 1, Near: 2}, result1)
-	assert.Equal(t, Accuracy{Exact: 1, Near: 2}, result2)
+	assert.Equal(t, Accuracy{Exact: 1, Near: 1}, result1)
+	assert.Equal(t, Accuracy{Exact: 0, Near: 2}, result2)
+}
+
+func TestCompareHandlesLongerNumbers(t *testing.T) {
+	result := Compare("123456789", "987654321")
+
+	assert.Equal(t, Accuracy{Exact: 1, Near: 8}, result)
 }
