@@ -8,6 +8,7 @@ import (
 
 	"github.com/Tom/CowsAndBulls/pkg/generate"
 	"github.com/Tom/CowsAndBulls/pkg/guess"
+	"github.com/Tom/CowsAndBulls/pkg/response"
 )
 
 func main() {
@@ -21,6 +22,6 @@ func main() {
 		input, _ := reader.ReadString('\n')
 		input = strings.ReplaceAll(input, "\n", "")
 		result := guess.Compare(secret, input)
-		fmt.Println(result)
+		fmt.Println(response.ToString(result))
 	}
 }
