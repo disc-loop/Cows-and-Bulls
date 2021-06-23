@@ -1,8 +1,18 @@
 package guess
 
+import "fmt"
+
 type Accuracy struct {
 	Exact int
 	Near  int
+}
+
+func (accuracy Accuracy) ToString() string {
+	if accuracy == (Accuracy{}) {
+		return "No matches!"
+	}
+
+	return fmt.Sprintf("Bulls: %v, Cows: %v", accuracy.Exact, accuracy.Near)
 }
 
 func Compare(secret string, guess string) Accuracy {

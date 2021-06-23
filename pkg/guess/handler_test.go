@@ -46,3 +46,19 @@ func TestCompareHandlesLongerNumbers(t *testing.T) {
 
 	assert.Equal(t, Accuracy{Exact: 1, Near: 8}, result)
 }
+
+func TestAccuracyToString(t *testing.T) {
+	expected := "Bulls: 2, Cows: 2"
+	accuracy := Accuracy{Exact: 2, Near: 2}
+	result := accuracy.ToString()
+
+	assert.Equal(t, expected, result)
+}
+
+func TestAccuracyToStringNoMatches(t *testing.T) {
+	expected := "No matches!"
+	accuracy := Accuracy{Exact: 0, Near: 0}
+	result := accuracy.ToString()
+
+	assert.Equal(t, expected, result)
+}
