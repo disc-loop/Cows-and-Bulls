@@ -1,6 +1,10 @@
 package guess
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/Tom/CowsAndBulls/pkg/input"
+)
 
 type Accuracy struct {
 	Exact int
@@ -15,7 +19,13 @@ func (accuracy Accuracy) ToString() string {
 	return fmt.Sprintf("Bulls: %v, Cows: %v", accuracy.Exact, accuracy.Near)
 }
 
-func Compare(secret string, guess string) Accuracy {
+func Compare(secret string, guess string) (Accuracy, error) {
+	// Input validation
+	if !input.CorrectLength(secret, guess) {
+		errString := fmt.Sprintf("incorrect string length for guess. Should be %v characters long.", len(secret))
+		return Accuracy{}, fmt.Errorf(errString)
+	}
+
 	var s []byte = []byte(secret)
 	var g []byte = []byte(guess)
 	len := len(secret)
@@ -40,5 +50,5 @@ func Compare(secret string, guess string) Accuracy {
 		}
 	}
 
-	return accuracy
+	return accuracy, nil
 }

@@ -18,9 +18,19 @@ func main() {
 
 	for {
 		fmt.Print("Enter your guess: ")
-		input, _ := reader.ReadString('\n')
+
+		input, err := reader.ReadString('\n')
+		if err != nil {
+			fmt.Println(err)
+		}
+
 		input = strings.ReplaceAll(input, "\n", "")
-		result := guess.Compare(secret, input)
-		fmt.Println(result.ToString())
+
+		result, err := guess.Compare(secret, input)
+		if err != nil {
+			fmt.Printf("Error: %v\n", err)
+		} else {
+			fmt.Println(result.ToString())
+		}
 	}
 }
