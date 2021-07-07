@@ -8,6 +8,7 @@ import (
 
 	"github.com/Tom/CowsAndBulls/pkg/generate"
 	"github.com/Tom/CowsAndBulls/pkg/guess"
+	"github.com/Tom/CowsAndBulls/pkg/input"
 )
 
 func main() {
@@ -19,14 +20,19 @@ func main() {
 	for {
 		fmt.Print("Enter your guess: ")
 
-		input, err := reader.ReadString('\n')
+		i, err := reader.ReadString('\n')
 		if err != nil {
 			fmt.Println(err)
 		}
 
-		input = strings.ReplaceAll(input, "\n", "")
+		i = strings.ReplaceAll(i, "\n", "")
+		g, err := input.ValidateGuess(secret, i)
+		if err != nil {
+			fmt.Printf("Error: %v\n", err)
+			continue
+		}
 
-		result, err := guess.Compare(secret, input)
+		result, err := guess.Compare(secret, g)
 		if err != nil {
 			fmt.Printf("Error: %v\n", err)
 		} else {

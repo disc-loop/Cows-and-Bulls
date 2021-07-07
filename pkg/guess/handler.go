@@ -19,13 +19,7 @@ func (accuracy Accuracy) ToString() string {
 	return fmt.Sprintf("Bulls: %v, Cows: %v", accuracy.Exact, accuracy.Near)
 }
 
-func Compare(secret string, guess string) (Accuracy, error) {
-	// Input validation
-	if !input.CorrectLength(secret, guess) {
-		errString := fmt.Sprintf("incorrect string length for guess. Should be %v characters long.", len(secret))
-		return Accuracy{}, fmt.Errorf(errString)
-	}
-
+func Compare(secret string, guess input.ValidGuess) (Accuracy, error) {
 	var s []byte = []byte(secret)
 	var g []byte = []byte(guess)
 	len := len(secret)
