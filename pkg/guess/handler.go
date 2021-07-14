@@ -3,7 +3,7 @@ package guess
 import (
 	"fmt"
 
-	"github.com/Tom/CowsAndBulls/pkg/input"
+	"github.com/h4cksmith/CowsAndBulls/pkg/input"
 )
 
 type Accuracy struct {

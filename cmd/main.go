@@ -6,9 +6,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Tom/CowsAndBulls/pkg/generate"
-	"github.com/Tom/CowsAndBulls/pkg/guess"
-	"github.com/Tom/CowsAndBulls/pkg/input"
+	"github.com/h4cksmith/CowsAndBulls/pkg/generate"
+	"github.com/h4cksmith/CowsAndBulls/pkg/guess"
+	"github.com/h4cksmith/CowsAndBulls/pkg/input"
 )
 
 func main() {
