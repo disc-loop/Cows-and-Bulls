@@ -17,11 +17,26 @@ func TestValidateGuessWorks(t *testing.T) {
 }
 
 func TestValidateGuessError(t *testing.T) {
-	s1 := "1234"
-	s2 := "43210"
+	secret := "1234"
+	tests := []struct {
+		input    string
+		expected error
+		name     string
+	}{{
+		input:    "12345",
+		expected: lengthError{len(secret)},
+		name:     "OnIncorrectLength",
+	}, {
+		input:    "1a23",
+		expected: characterError{},
+		name:     "OnIncorrectCharacterSet",
+	}}
 
-	g, err := ValidateGuess(s1, s2)
+	for _, v := range tests {
+		t.Run(v.name, func(t *testing.T) {
+			_, err := ValidateGuess(secret, v.input)
 
-	assert.Error(t, err)
-	assert.Equal(t, ValidGuess(""), g)
+			assert.Equal(t, v.expected, err)
+		})
+	}
 }
